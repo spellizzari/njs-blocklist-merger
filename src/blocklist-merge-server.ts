@@ -1,5 +1,6 @@
 /// <reference path="d.ts/DefinitelyTyped/node/node.d.ts" />
 /// <reference path="d.ts/DefinitelyTyped/async/async.d.ts" />
+module exports {
 
 // Import nodejs external modules.
 var async = <Async>require("async");
@@ -191,7 +192,7 @@ class AsyncHTTPRequestTask
 }
 
 // Represents a class for an HTTP server that merges a set of blocklists on request.
-class MergedBlocklistServer
+export class MergedBlocklistServer
 {
     //=======================================================================
     //     Methods
@@ -313,21 +314,4 @@ class MergedBlocklistServer
     }
 }
 
-// Parse arguments.
-var arguments = <any>new Object();
-var argumentRegex = <RegExp>/^([a-zA-Z_][a-zA-Z_0-9]*)=('?[^']*'?)/;
-for (var i = 2; i < process.argv.length; i++)
-{
-    var match = argumentRegex.exec(process.argv[i]);
-    if (match)
-        arguments[match[1]] = match[2];
 }
-
-// Create the web server.
-var server = new MergedBlocklistServer();
-var port = 1337;
-var hostname = "127.0.0.1";
-if (arguments.host) hostname = arguments.host;
-if (arguments.port) port = parseInt(arguments.port);
-server.Listen(hostname, port);
-console.log("Server is listening on %s:%d...", hostname, port);

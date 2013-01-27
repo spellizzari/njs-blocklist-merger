@@ -59,26 +59,32 @@ var AsyncHTTPRequestTask = (function () {
         var This = this;
         return function (cllbck) {
             This.InternalExecute(cllbck);
-        };
+        }
     };
     AsyncHTTPRequestTask.prototype.InternalExecute = function (callback) {
         var This = this;
         AsyncHTTPRequestTask.InternalHttpGet(this._requestUrl, function (response) {
             var output = null;
             switch(response.headers['content-encoding']) {
-                case 'gzip':
+                case 'gzip': {
                     var gzip = zlib.createGunzip(undefined);
                     response.pipe(gzip);
                     output = gzip;
                     break;
-                case 'deflate':
+
+                }
+                case 'deflate': {
                     var inflate = zlib.createInflate(undefined);
                     response.pipe(inflate);
                     output = inflate;
                     break;
-                default:
+
+                }
+                default: {
                     output = response;
                     break;
+
+                }
             }
             This._result = "";
             This._total = parseInt(response.headers["content-length"]);
@@ -116,14 +122,16 @@ var AsyncHTTPRequestTask = (function () {
                     parsedRedirectUrl.hostname = parsedRequestUrl.hostname;
                 }
                 AsyncHTTPRequestTask.InternalHttpGet(url.format(parsedRedirectUrl), success, error);
-            } else if(response.statusCode == 200) {
-                success(response);
             } else {
-                error(new Error("HTTP request failed with " + response.statusCode + " response code"));
+                if(response.statusCode == 200) {
+                    success(response);
+                } else {
+                    error(new Error("HTTP request failed with " + response.statusCode + " response code"));
+                }
             }
         });
         request.on("error", error);
-    };
+    }
     return AsyncHTTPRequestTask;
 })();
 var MergedBlocklistServer = (function () {
@@ -195,25 +203,7 @@ var MergedBlocklistServer = (function () {
             }
             completionCallback(mergedResult, failedUrls);
         });
-    };
+    }
     return MergedBlocklistServer;
 })();
-var arguments = new Object();
-var argumentRegex = /^([a-zA-Z_][a-zA-Z_0-9]*)=('?[^']*'?)/;
-for(var i = 2; i < process.argv.length; i++) {
-    var match = argumentRegex.exec(process.argv[i]);
-    if(match) {
-        arguments[match[1]] = match[2];
-    }
-}
-var server = new MergedBlocklistServer();
-var port = 1337;
-var hostname = "127.0.0.1";
-if(arguments.host) {
-    hostname = arguments.host;
-}
-if(arguments.port) {
-    port = parseInt(arguments.port);
-}
-server.Listen(hostname, port);
-console.log("Server is listening on %s:%d...", hostname, port);
+exports.MergedBlocklistServer = MergedBlocklistServer;

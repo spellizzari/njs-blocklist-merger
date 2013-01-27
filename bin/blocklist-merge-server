@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+// Requires.
+var server = require('../lib/blocklist-merge-server.js');
+var argv = require('optimist').argv;
+
+// Show help if necessary.
+if (argv.h || argv.help)
+{
+	console.log([
+		"usage: blocklist-merger-server [options]",
+		"",
+		"options:",
+		"  -port [number]     Port to use (default is 1337)",
+		"  -host [hostname]   Address to use (default is localhost)",
+		"  -h --help          Print this list and exit.",
+	].join('\n'));
+	process.exit();
+}
+
+// Parse args.
+var port = argv.p || 1337;
+var host = argv.a || "localhost";
+
+// Create the web server.
+var server = new server.MergedBlocklistServer();
+server.Listen(host, port);
+console.log("Server is listening on %s:%d...", host, port);
+
+if (process.platform !== 'win32')
+{
+	process.on('SIGINT', function ()
+	{
+		console.log("Server stopped.");
+		process.exit();
+	});
+}

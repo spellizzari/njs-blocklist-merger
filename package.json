@@ -19,11 +19,17 @@
 		"url": "https://github.com/spellizzari/njs-blocklist-merger.git"
 	},
 	"dependencies": {
-		"async": "0.1.22"
+		"async": "0.1.22",
+		"optimist": "0.2.x"
 	},
 	"preferGlobal": "true",
 	"readmeFilename": "README.md",
+	"main": "./lib/blocklist-merge-server",
+	"bin": {
+		"blocklist-merge-server": "./bin/blocklist-merge-server"
+	},
 	"scripts": {
-		"build": "tsc --target ES5 server.ts"
+		"start": "node ./bin/blocklist-merge-server",
+		"build": "tsc --target ES5 --out ./lib/blocklist-merge-server.js ./src/blocklist-merge-server.ts"
 	}
 }
