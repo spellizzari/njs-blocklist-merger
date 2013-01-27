@@ -1,0 +1,29 @@
+{
+	"name": "njs-blocklist-merger",
+	"version": "0.1.0",
+	"description": "an HTTP server that downloads blocklists in p2p format and merges them on demand",
+	"keywords": [ "server", "blocklist", "merge" ],
+	"homepage": "http://github.com/spellizzari/njs-blocklist-merger/",
+	"licenses": [
+		{
+		  "type": "MIT",
+		  "url": "http://github.com/spellizzari/njs-blocklist-merger/raw/master/LICENSE"
+		}
+	],
+	"bugs": {
+		"url": "http://github.com/spellizzari/njs-blocklist-merger/issues"
+	},
+	"author": "Sebastien Pellizzari",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/spellizzari/njs-blocklist-merger.git"
+	},
+	"dependencies": {
+		"async": "0.1.22"
+	},
+	"preferGlobal": "true",
+	"readmeFilename": "README.md",
+	"scripts": {
+		"build": "tsc --target ES5 server.ts"
+	}
+}

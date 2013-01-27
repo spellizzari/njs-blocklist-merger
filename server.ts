@@ -1,5 +1,5 @@
-/// <reference path="typings/node/node-0.8.d.ts" />
-/// <reference path="typings/async/async-0.1.d.ts" />
+/// <reference path="d.ts/DefinitelyTyped/node/node.d.ts" />
+/// <reference path="d.ts/DefinitelyTyped/async/async.d.ts" />
 
 // Import nodejs external modules.
 var async = <Async>require("async");
@@ -87,12 +87,12 @@ class AsyncHTTPRequestTask
                 switch (response.headers['content-encoding'])
                 {
                     case 'gzip':
-                        var gzip = zlib.createGunzip();
+                        var gzip = zlib.createGunzip(undefined);
                         response.pipe(gzip);
                         output = gzip;
                         break;
                     case 'deflate':
-                        var inflate = zlib.createInflate();
+                        var inflate = zlib.createInflate(undefined);
                         response.pipe(inflate);
                         output = inflate;
                         break;
