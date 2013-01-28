@@ -35,7 +35,7 @@ Usage
 
 Place list files inside the _lists_ folder in the format specified above. Then run the server by executing the command:
 ````````
-node ./bin/blocklist-merge-server --host localhost --port 1337
+blocklist-merge-server --host localhost --port 1337
 ````````
 
 You can customize the host and port numbers. Defaults are _localhost_ and _1337_.
