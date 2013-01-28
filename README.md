@@ -29,25 +29,6 @@ You must have NodeJS and NPM on your system (see http://nodejs.org/ and https://
 ````````
 npm install njs-blocklist-merger -g
 ````````
-Or create a folder to install it locally and run the following command from this folder;
-
-````````
-npm install njs-blocklist-merger
-````````
-
-Manual Installation
--------------------
-
-1. Install NodeJS and NPM on your system (see http://nodejs.org/ and https://npmjs.org/).
-2. Unzip _njs-blocklist-merger_ in the folder of your choice.
-3. Use NPM into that folder to install _njs-blocklist-merger_ with the following command:
-````````
-npm install
-````````
-or to install it as a global module:
-````````
-npm install -g
-````````
 
 Usage
 -----
@@ -87,11 +68,11 @@ npm install tsd -g
 cd ./src/
 tsd install node async
 ````````
-4. You can then compile njs-blocklist-merger with the following command line in the root folder:
+4. You can then compile njs-blocklist-merger with the following command line in its folder:
 ````
 npm run-script build
 ````
-or run this command:
+or this command:
 ````
 tsc --target ES5 --out ./lib/blocklist-merge-server.js ./src/blocklist-merge-server.ts
 ````
