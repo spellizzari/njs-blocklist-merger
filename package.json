@@ -1,6 +1,6 @@
 {
     "name": "njs-blocklist-merger",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "an HTTP server that downloads blocklists in p2p format and merges them on demand",
 	"keywords": [ "server", "blocklist", "merge" ],
 	"homepage": "http://github.com/spellizzari/njs-blocklist-merger/",
