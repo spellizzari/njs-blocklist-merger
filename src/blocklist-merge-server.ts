@@ -82,19 +82,27 @@ module exports {
     
             // Do the HTTP get.
             AsyncHTTPRequestTask.InternalHttpGet(this._requestUrl,
-                (response: http.ClientResponse) =>
+                (response: http.ClientResponse, responseUrl: url.Url) =>
                 {
+					//console.log(response.headers);
+
+                    // Get encoding.
+					var encoding = response.headers['content-encoding'];
+                    if (!encoding && /\.gz(ip)?$/i.test(responseUrl.pathname))
+                        encoding = "gzip";
+                    //console.log(encoding);
+
                     // Unzip content if necessary.
                     var output = <stream.ReadableStream>null;
-                    switch (response.headers['content-encoding'])
+                    switch (encoding)
                     {
                         case 'gzip':
-                            var gzip = zlib.createGunzip(undefined);
+                            var gzip = (<any>zlib).createGunzip();
                             response.pipe(gzip);
                             output = gzip;
                             break;
                         case 'deflate':
-                            var inflate = zlib.createInflate(undefined);
+                            var inflate = (<any>zlib).createInflate();
                             response.pipe(inflate);
                             output = inflate;
                             break;
@@ -146,8 +154,10 @@ module exports {
         }
     
         // Does a direct HTTP GET at specified url by following any redirection (warning: redirection loops will cause a stack overflow).
-        private static InternalHttpGet(requestUrl: string, success: (response: http.ClientResponse) => void , error: (error: Error) => void )
+        private static InternalHttpGet(requestUrl: string, success: (response: http.ClientResponse, responseUrl: url.Url) => void , error: (error: Error) => void )
         {
+            console.log("HTTP GET %s", requestUrl);
+
             // Parse the request url.
             var parsedRequestUrl = url.parse(requestUrl);
     
@@ -155,12 +165,16 @@ module exports {
             var options = <any>parsedRequestUrl;
             options.headers =
             {
-                'Accept-Cncoding': 'gzip,deflate'
+                'accept': '*/*',
+                'accept-encoding': 'gzip,deflate',
+                'accept-charset': 'utf-8'
             };
     
             // Do the HTTP GET.
             var request = http.get(options, function (response: http.ClientResponse) =>
             {
+                console.log("HTTP %d %s", response.statusCode, requestUrl);
+
                 // If it's a redirection...
                 if (response.statusCode > 300 && response.statusCode < 400 && response.headers.location)
                 {
@@ -178,7 +192,7 @@ module exports {
                 else if (response.statusCode == 200)
                 {
                     // Call success callback.
-                    success(response);
+                    success(response, parsedRequestUrl);
                 }
                 else
                 {
