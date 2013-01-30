@@ -7,20 +7,20 @@ var argv = require('optimist').argv;
 // Show help if necessary.
 if (argv.h || argv.help)
 {
-	console.log([
+    console.log([
 		"usage: blocklist-merger-server [options]",
 		"",
 		"options:",
-		"  -port [number]     Port to use (default is 1337)",
-		"  -host [hostname]   Address to use (default is localhost)",
-		"  -h --help          Print this list and exit.",
+		"  --port [number]     Port to use (default is 1337)",
+		"  --host [hostname]   Address to use (default is localhost)",
+		"  --help              Print this list and exit.",
 	].join('\n'));
 	process.exit();
 }
 
 // Parse args.
-var port = argv.p || 1337;
-var host = argv.a || "localhost";
+var port = argv.port ? argv.port : (process.env.PORT ? process.env.PORT : 1337);
+var host = argv.host ? argv.host : (process.env.IP ? process.env.IP : "localhost");
 
 // Create the web server.
 var server = new server.MergedBlocklistServer();

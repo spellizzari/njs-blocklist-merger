@@ -1,5 +1,5 @@
 {
-	"name": "njs-blocklist-merger",
+    "name": "njs-blocklist-merger",
 	"version": "0.1.0",
 	"description": "an HTTP server that downloads blocklists in p2p format and merges them on demand",
 	"keywords": [ "server", "blocklist", "merge" ],
@@ -30,6 +30,7 @@
 	},
 	"scripts": {
 		"start": "node ./bin/blocklist-merge-server",
-		"build": "tsc --target ES5 --out ./lib/blocklist-merge-server.js ./src/blocklist-merge-server.ts"
+		"build": "tsc --sourcemap --target ES5 --out ./lib/ ./src/blocklist-merge-server.ts",
+        "watch": "tsc --sourcemap --watch --target ES5 --out ./lib/ ./src/blocklist-merge-server.ts"
 	}
 }
